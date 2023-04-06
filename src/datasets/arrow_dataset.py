@@ -1176,7 +1176,7 @@ class Dataset(DatasetInfoMixin, IndexableMixin, TensorflowDatasetMixin):
                 Path(s) of the text file(s).
             split (`NamedSplit`, *optional*):
                 Split name to be assigned to the dataset.
-            features (`Features`, o*ptional*):
+            features (`Features`, *optional*):
                 Dataset features.
             cache_dir (`str`, *optional*, defaults to `"~/.cache/huggingface/datasets"`):
                 Directory to cache data.
@@ -1215,6 +1215,8 @@ class Dataset(DatasetInfoMixin, IndexableMixin, TensorflowDatasetMixin):
     @staticmethod
     def from_spark(
         df: pyspark.sql.DataFrame,
+        split: Optional[NamedSplit] = None,
+        features: Optional[Features] = None,
         cache_dir: str = None,
         force_download: bool = False,
         **kwargs,
@@ -1224,6 +1226,10 @@ class Dataset(DatasetInfoMixin, IndexableMixin, TensorflowDatasetMixin):
         Args:
             df (`pyspark.sql.DataFrame`):
                 The DataFrame containing the desired data.
+            split (`NamedSplit`, *optional*):
+                Split name to be assigned to the dataset.
+            features (`Features`, *optional*):
+                Dataset features.
             cache_dir (`str`, *optional*, defaults to `"~/.cache/huggingface/datasets"`):
                 Directory to cache data. When using a multi-node Spark cluster, the cache_dir must be accessible to both
                 workers and the driver.
@@ -1236,6 +1242,8 @@ class Dataset(DatasetInfoMixin, IndexableMixin, TensorflowDatasetMixin):
 
         return SparkDatasetReader(
             df,
+            split=split,
+            features=features,
             cache_dir=cache_dir,
             force_download=force_download,
             **kwargs,
