@@ -1219,6 +1219,7 @@ class Dataset(DatasetInfoMixin, IndexableMixin, TensorflowDatasetMixin):
         features: Optional[Features] = None,
         cache_dir: str = None,
         force_download: bool = False,
+        file_format: str = "arrow",
         **kwargs,
     ):
         """Create Dataset from Spark DataFrame. Dataset downloading is distributed over Spark workers.
@@ -1236,6 +1237,8 @@ class Dataset(DatasetInfoMixin, IndexableMixin, TensorflowDatasetMixin):
             force_download (`bool`):
                 Whether to force download of the dataset. When not forcing download, if a dataset is present in the
                 cache, it will be reused.
+            file_format (`str`, defaults to `"arrow"`):
+                The file format to use when writing the cache. Must be either `"arrow"` or `"parquet"`.
         """
         # Dynamic import to avoid circular dependency
         from .io.spark import SparkDatasetReader
@@ -1246,6 +1249,7 @@ class Dataset(DatasetInfoMixin, IndexableMixin, TensorflowDatasetMixin):
             features=features,
             cache_dir=cache_dir,
             force_download=force_download,
+            file_format=file_format,
             **kwargs,
         ).read()
 
